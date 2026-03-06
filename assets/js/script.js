@@ -1,55 +1,9 @@
+import Tarea from './classes/Tarea.js';
+import GestorTareas from './classes/GestorTareas.js';
+import { options, success, error } from './api/geolocation.js';
+
 const formularioTarea = document.getElementById('formulario-tarea');
 const listaTareas = document.getElementById('lista-tareas');
-
-// 1. Crear clase Tarea
-class Tarea {
-  constructor(id, descripcion, estado, fechaCreacion, fechaLimite) {
-    this.id = id; // numero o string
-    this.descripcion = descripcion; // string
-    this.estado = estado; // booleano
-    this.fechaCreacion = fechaCreacion; // string
-    this.fechaLimite = fechaLimite;
-  }
-
-  cambiarEstado() {
-    this.estado = !this.estado;
-  }
-}
-
-// 2. Crear clase GestorTareas
-class GestorTareas {
-  #tareas = []; // propiedad privada! No es accesible fuera de la clase
-
-  agregarTarea(tarea) {
-    this.#tareas.push(tarea);
-  }
-  eliminarTarea(id) {
-    // Todo: Validar que id exista
-    let tareaEncontrada = this.#buscarTarea(id);
-    if (!tareaEncontrada) {
-      console.log('Tarea no encontrada');
-      return;
-    }
-    // Filtrar un array: solo dejará los elementos cuyo id sea distinto al id pasado como argumento
-    this.#tareas = this.#tareas.filter((tarea) => tarea.id !== id);
-  }
-
-  #buscarTarea(id) {
-    return this.#tareas.find((tarea) => tarea.id === id);
-  }
-  cambiarEstado(id) {
-    let tareaEncontrada = this.#buscarTarea(id);
-    if (!tareaEncontrada) {
-      console.log('Tarea no encontrada');
-      return;
-    }
-    // Si es que encontró la tarea...↓
-    tareaEncontrada.cambiarEstado();
-  }
-  listarTareas() {
-    return this.#tareas;
-  }
-}
 
 const gestorTareas = new GestorTareas();
 
@@ -180,3 +134,6 @@ listaTareas.addEventListener('click', (event) => {
     renderizarTareas();
   }
 });
+
+// GEOLOCATION API - Api del navegador
+navigator.geolocation.getCurrentPosition(success, error, options);
